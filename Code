@@ -1,0 +1,519 @@
+#include<conio.h>
+#include<iostream>
+#include<cstring>
+using namespace std;
+int i, j;
+int count, temp;
+class Spell_check
+{
+public:
+	char tword[100];
+
+	Spell_check()
+	{
+		for (i = 0; i < 100; i++)
+		{
+			tword[i] = '\0';
+		}
+	}
+	void Metaphone(char tword[], int len)
+	{
+		char ary[5] = { 'a', 'e', 'i', 'o', 'u' };
+		//POINT 1:
+		//removing all repeating adjacent letters except c
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == tword[i + 1] && tword[i] != 'c')
+			{
+				move(i + 1, tword, len);
+			}
+		}
+		//displaying the tword after point 1
+		cout << "POINT 1 " << endl;
+		for (int i = 0; i < len; i++)
+		{
+			cout << tword[i];
+		}
+		cout << endl;
+
+		//POINT 2:
+		//transforming beginning of the tword
+
+		int count = 0;
+
+		if (tword[0] == 'k'&& tword[1] == 'n')
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] != NULL)
+				{
+					tword[i] = tword[i + 1];
+				}
+			}
+			tword[len - 1] = '\0';
+		}
+		else if (tword[0] == 'g'&& tword[1] == 'n')
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] != NULL)
+				{
+					tword[i] = tword[i + 1];
+				}
+			}
+			tword[len - 1] = '\0';
+		}
+		else if (tword[0] == 'p'&& tword[1] == 'n')
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] != NULL)
+				{
+					tword[i] = tword[i + 1];
+				}
+			}
+			tword[len - 1] = '\0';
+		}
+		else if (tword[0] == 'a'&& tword[1] == 'e')
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] != NULL)
+				{
+					tword[i] = tword[i + 1];
+				}
+			}
+			tword[len - 1] = '\0';
+		}
+		else if (tword[0] == 'w'&& tword[1] == 'r')
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] != NULL)
+				{
+					tword[i] = tword[i + 1];
+				}
+			}
+			tword[len - 1] = '\0';
+		}
+		//displaying the tword after point 2
+		cout << "POINT 2 " << endl;
+		for (int i = 0; i < len; i++)
+		{
+			cout << tword[i];
+		}
+		cout << endl;
+
+		//POINT 3:
+		//Remove letter B at end if after M
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == 'm' && tword[i + 1] == 'b')
+			{
+				moveR(len, tword);
+			}
+		}
+
+		cout << "POINT 3 " << endl;
+		for (int i = 0; i < len; i++)
+		{
+			cout << tword[i];
+		}
+		cout << endl;
+
+		//POINT 4:
+		//Replace C
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == 't'&&tword[i + 1] == 'c'&&tword[i + 2] == 'h')//needs checking
+			{
+				move(i, tword, len);
+			}
+			//Replacing with x
+			else if (tword[i] == 'c'&& tword[i + 1] == 'i' && tword[i + 2] == 'a')
+				tword[i] = 'x';
+			else if (tword[i] == 's'&& tword[i + 1] == 'c' && tword[i + 2] == 'h')
+				tword[i + 1] = 'x';
+
+			else if (tword[i] == 'c'&& tword[i + 1] == 'h')
+				tword[i] = 'x';
+			//Replacing with S
+			else if (tword[i] == 'c'&& tword[i + 1] == 'i')
+				tword[i] = 's';
+			else if (tword[i] == 'c'&& tword[i + 1] == 'e')
+				tword[i] = 's';
+			else if (tword[i] == 'c'&& tword[i + 1] == 'y')
+				tword[i] = 's';
+			//Replacing with K
+			else if (tword[i] == 'c')
+				tword[i] = 'k';
+		}
+
+		cout << len << endl;
+		cout << "POINT 4 " << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+		//POINT 5:
+		//Replace D
+		for (i = 0; i < len; i++)
+		{
+			//Replacing with j
+			if (tword[i] == 'd'&& tword[i + 1] == 'g' && tword[i + 2] == 'e')
+				tword[i] = 'j';
+			else if (tword[i] == 'd'&& tword[i + 1] == 'g' && tword[i + 2] == 'y')
+				tword[i] = 'j';
+			else if (tword[i] == 'd'&& tword[i + 1] == 'g'&& tword[i + 2] == 'i')
+			{
+				tword[i] = 'j';
+				tword[i + 2] = 'y';
+			}
+			//Replacing with T
+			else if (tword[i] == 'd')
+				tword[i] = 't';
+		}
+		cout << "POINT 5 " << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+		//POINT 6;
+		//Replace GH
+		for (i = 0; i < len; i++)
+		{
+			if (tword[len - 1] == 'g'&& tword[len] == 'h')
+			{
+
+			}
+			else if (tword[i] == 'g' && tword[i + 1] == 'h' && (tword[i + 2] != NULL))
+			{
+
+				move(i, tword, len);
+			}
+			else if (tword[i] == 'g' && tword[i + 1] == 'h' && ((tword[len + 1] != 'a' ||
+				tword[len + 1] != 'e' ||
+				tword[len + 1] != 'i' ||
+				tword[len + 1] != 'o' ||
+				tword[len + 1] != 'u')))
+			{
+				//move(i, tword, len);
+
+			}
+
+		}
+		cout << "POINT 6 " << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+		//POINT 7:
+		//Replace GNED with NED
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == 'g' && tword[i + 1] == 'n' && tword[i + 2] == NULL)
+			{
+				move(i, tword, len);
+			}
+			else if (tword[i] == 'g' && tword[i + 1] == 'n' && tword[i + 2] == 'e' && tword[i + 3] == 'd' &&tword[i + 4] == NULL)
+			{
+				move(i, tword, len);
+			}
+
+		}
+		cout << "POINT 7 " << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+		//POINT 8:
+		//Replace G
+		for (i = 0; i < len; i++)
+		{
+			//Replacing with j
+			if (tword[i] == 'g'&& tword[i + 1] == 'i')
+				tword[i] = 'j';
+			if (tword[i] == 'g'&& tword[i + 1] == 'e')
+				tword[i] = 'j';
+			if (tword[i] == 'g'&& tword[i + 1] == 'y')
+				tword[i] = 'j';
+			//Replacing with K
+			if (tword[i] == 'g')
+				tword[i] = 'k';
+		}
+
+		cout << "POINT 8" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+
+		//POINT 10
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == 'c'&& tword[i + 1] == 'k')
+				tword[i] = 'k';
+			if (tword[i] == 'p'&& tword[i + 1] == 'h')
+			{
+				if (tword[i + 1] != NULL)
+
+
+				{
+					tword[i + 1] = 'f';
+					move(i, tword, len);
+				}
+				else if (tword[i + 1] == NULL)
+				{
+					tword[i] = 'f';
+					moveR(i, tword);
+				}
+			}
+			else if (tword[i] == 'q')
+				tword[i] = 'k';
+			else if (tword[i] == 'v')
+				tword[i] = 'f';
+			else if (tword[i] == 'z')
+				tword[i] = 's';
+
+		}
+
+		cout << "POINT 10" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+		//point 11
+		for (i = 0; i < len; i++)
+		{
+			//Replacing with x
+			if (tword[i] == 's'&& tword[i + 1] == 'i' && tword[i + 2] == 'a')
+				tword[i] = 'x';
+			if (tword[i] == 's'&& tword[i + 1] == 'i' && tword[i + 2] == 'o')
+				tword[i] = 'x';
+			if (tword[i] == 's'&& tword[i + 1] == 'h')
+				tword[i] = 'x';
+		}
+		cout << "POINT 11" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+		//point 12
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i] == 't'&&tword[i + 1] == 'i'&&tword[i + 2] == 'a')
+				tword[i] = 'x';
+			else if (tword[i] == 't'&&tword[i + 1] == 'i'&&tword[i + 2] == 'o')
+				tword[i] = 'x';
+			else if (tword[i] == 't'&&tword[i + 1] == 'h')
+			{
+				tword[i] = 'o';
+				move(i + 1, tword, len);
+			}
+			else if (tword[i] == 'c'&& tword[i + 1] == 'h')
+				tword[i] = 'x';
+		}
+		cout << "POINT 12" << endl;
+		for (i = 0; i < len; i++)
+		{
+			cout << tword[i];
+			//
+		}
+		cout << endl;
+
+		//Point 13
+
+		if (tword[0] == 'w'&&tword[1] == 'h')
+		{
+			for (i = 0; i < len; i++)
+			{
+				tword[i] = 'w';
+				move(i + 1, tword, len);
+
+			}
+		}
+		for (i = 0; i < len; i++)
+		{
+			if (tword[i - 1] == 'w' && ((tword[i] == 'a' ||
+				tword[i] == 'e' ||
+				tword[i] == 'i' ||
+				tword[i] == 'o' ||
+				tword[i] == 'u')))
+			{
+				// move(i, tword, len);
+			}
+			else
+			{
+
+				{
+					if (tword[i - 1] == 'w')
+					{
+						move(i - 1, tword, len);
+					}
+
+				}
+			}
+		}
+		cout << "POINT 13" << endl;
+		for (i = 0; i < len; i++)
+		{
+			cout << tword[i];
+			//
+		}
+		cout << endl;
+
+
+
+		//POINT 9
+		//Removing all H
+
+
+		for (i = 0; i < len; i++)
+
+		if (tword[i] == 'h' && ((tword[len + 1] != 'a' ||
+			tword[len + 1] != 'e' ||
+			tword[len + 1] != 'i' ||
+			tword[len + 1] != 'o' ||
+			tword[len + 1] != 'u')))
+		{
+			//move(i, tword, len);
+
+		}
+		else
+		{
+			for (i = 0; i < len; i++)
+			{
+				if (tword[i] == 'h')
+					//tword[i] = tword[i + 1];
+					move(i, tword, len);
+			}
+
+
+		}
+		cout << "POINT 9" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+		//point 15
+		for (i = 0; i < len; i++)
+		{
+
+			if (tword[i] == 'y' && (tword[i + 1] != 'a' || tword[i + 1] != 'e'
+				|| tword[i + 1] != 'i'
+				|| tword[i + 1] != 'o'
+				|| tword[i + 1] != 'u'))
+
+			{
+				move(i, tword, len);
+			}
+			else
+			{
+
+			}
+		}
+		cout << "POINT 15" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+
+		//	POINT 16
+		//removing vowels
+		{
+			for (int i = 0; tword[i] != '\0'; i++) {
+				if (tword[0] == 'a' || tword[0] == 'e' || tword[0] == 'i' || tword[0] == 'o' || tword[0] == 'u')
+				{
+				}
+				if ((tword[i + 1] == 'a'
+					|| tword[1 + i] == 'e'
+					|| tword[1 + i] == 'i'
+					|| tword[1 + i] == 'o'
+					|| tword[1 + i] == 'u'))
+				{
+					move(i+1, tword, len);
+				}
+
+				else if
+					(tword[i + 2] == 'a'
+					|| tword[2 + i] == 'e'
+					|| tword[2 + i] == 'i'
+					|| tword[2 + i] == 'o'
+					|| tword[2 + i] == 'u'
+					|| tword[i + 1] == 'a'
+					|| tword[1 + i] == 'e'
+					|| tword[1 + i] == 'i'
+					|| tword[1 + i] == 'o'
+					|| tword[1 + i] == 'u')
+				{
+
+
+					move(i+2, tword, len);
+
+
+				}
+			}
+
+		}
+		cout << "POINT 16" << endl;
+		for (i = 0; i < len; i++)
+			cout << tword[i];
+		cout << endl;
+	}
+	void move(int pos, char tword[], int len)
+	{
+		for (i = pos; i <len; i++)
+		{
+			if (tword[i] != NULL)
+			{
+				tword[i] = tword[i + 1];
+			}
+		}
+		tword[len + 1] = '\0';
+		cout << "Move function" << endl;
+
+		for (i = 0; i <len; i++)
+		{
+			cout << tword[i];
+		}
+	}
+	void moveR(int pos, char tword[])
+	{
+		for (i = pos; i <6; i++)
+		{
+			if (tword[i] == NULL)
+			{
+				tword[i + 1] = tword[i];
+			}
+		}
+		tword[pos - 1] = '\0';
+		cout << "Move function" << endl;
+
+		for (i = pos; i <6; i++)
+		{
+			cout << tword[i];
+		}
+	}
+
+
+};
+
+void main()
+{
+	char arr[100];
+	/*int i = 0;
+	do{
+	cin >> arr[i];
+	arr[i + 1] = '\0';uaaaaa
+	i++;
+	} while (arr[i]!='-');*/
+	for (int i = 0; i < 8; i++)
+	{
+		cin >> arr[i];
+		arr[i + 1] = '\0';
+	}
+	int len = strlen(arr);
+	cout << "Size of word is " << len << endl;
+	Spell_check obj;
+	//
+	//
+	obj.Metaphone(arr, len);
+	//obj.move(0, arr);
+	system("pause");
+}
